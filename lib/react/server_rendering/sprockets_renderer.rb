@@ -29,7 +29,13 @@ module React
           props = props.to_json
         end
 
-        super(component_name, props, {render_function: react_render_method})
+        prerender_options = if prerender_options.is_a?(Hash)
+            {render_function: react_render_method}.merge(prerender_options)
+          else
+            {render_function: react_render_method}
+          end
+
+        super(component_name, props, prerender_options)
       end
 
       def after_render(component_name, props, prerender_options)
